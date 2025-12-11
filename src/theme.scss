@@ -1,0 +1,158 @@
+@use '@angular/material' as mat;
+
+@include mat.core();
+
+// Reutilizar as mesmas paletas do shell
+$tibia-cacau-primary: (
+	50: #fef5e7,
+	100: #fce6c3,
+	200: #fad69b,
+	300: #f8c673,
+	400: #f6ba55,
+	500: #d9a441,
+	600: #c89339,
+	700: #b07f2f,
+	800: #996c26,
+	900: #724f16,
+	contrast: (
+		50: #4b2e05,
+		100: #4b2e05,
+		200: #4b2e05,
+		300: #4b2e05,
+		400: #4b2e05,
+		500: #4b2e05,
+		600: #ffffff,
+		700: #ffffff,
+		800: #ffffff,
+		900: #ffffff,
+	),
+);
+
+$tibia-cacau-accent: (
+	50: #e8f0e7,
+	100: #c5dac3,
+	200: #9fc19b,
+	300: #78a873,
+	400: #5b9555,
+	500: #3e5c3a,
+	600: #385434,
+	700: #304a2c,
+	800: #284125,
+	900: #1b3018,
+	contrast: (
+		50: #4b2e05,
+		100: #4b2e05,
+		200: #4b2e05,
+		300: #ffffff,
+		400: #ffffff,
+		500: #ffffff,
+		600: #ffffff,
+		700: #ffffff,
+		800: #ffffff,
+		900: #ffffff,
+	),
+);
+
+$my-primary: mat.define-palette($tibia-cacau-primary, 500);
+$my-accent: mat.define-palette($tibia-cacau-accent, 500);
+
+$my-theme: mat.define-light-theme(
+	(
+		color: (
+			primary: $my-primary,
+			accent: $my-accent,
+		),
+		typography: mat.define-typography-config(),
+		density: 0,
+	)
+);
+
+@include mat.all-component-themes($my-theme);
+
+// Customizações globais do Material
+.mat-mdc-card {
+	background: #e8d7b1 !important;
+	border: 2px solid #d9a441 !important;
+	box-shadow: 0 4px 8px rgba(75, 46, 5, 0.2) !important;
+}
+
+.mat-mdc-card-header {
+	margin-bottom: 20px;
+
+	.mat-mdc-card-title {
+		color: #4b2e05 !important;
+		font-weight: 600 !important;
+	}
+}
+
+.mat-mdc-table {
+	background: white !important;
+	border: 1px solid #d9a441 !important;
+}
+
+.mat-mdc-header-row {
+	background: #3e5c3a !important;
+
+	.mat-mdc-header-cell {
+		color: #e8d7b1 !important;
+		font-weight: 600 !important;
+	}
+}
+
+.mat-mdc-row {
+	&:hover {
+		background: rgba(217, 164, 65, 0.1) !important;
+	}
+
+	.mat-mdc-cell {
+		color: #4b2e05 !important;
+	}
+}
+
+.mat-mdc-form-field {
+	.mat-mdc-text-field-wrapper {
+		background: white !important;
+	}
+
+	.mat-mdc-form-field-focus-overlay {
+		background-color: rgba(217, 164, 65, 0.1) !important;
+	}
+}
+
+.mat-mdc-chip {
+	background: rgba(217, 164, 65, 0.2) !important;
+	color: #4b2e05 !important;
+
+	&:hover {
+		background: rgba(217, 164, 65, 0.3) !important;
+	}
+}
+
+.mat-mdc-button,
+.mat-mdc-raised-button {
+	&.mat-primary {
+		background-color: #d9a441 !important;
+		color: #4b2e05 !important;
+	}
+
+	&.mat-accent {
+		background-color: #3e5c3a !important;
+		color: #e8d7b1 !important;
+	}
+}
+
+.mat-mdc-progress-spinner circle {
+	stroke: #d9a441 !important;
+}
+
+.mat-mdc-paginator {
+	background: #e8d7b1 !important;
+	color: #4b2e05 !important;
+	border-top: 1px solid #d9a441 !important;
+}
+
+// Fix para ícones do Material
+.mat-icon {
+	font-family: 'Material Icons' !important;
+	font-feature-settings: 'liga' 1;
+}
