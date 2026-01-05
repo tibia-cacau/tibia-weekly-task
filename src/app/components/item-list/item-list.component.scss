@@ -1,3 +1,5 @@
+@import '../../../../../../shared-styles/variables';
+
 .item-list-container {
 	padding: 30px 20px;
 	max-width: 1400px;
@@ -9,9 +11,9 @@
 
 	h2 {
 		text-align: center;
-		color: #e8d7b1;
+		color: $tibia-gold-light;
 		font-size: 22px;
-		text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+		text-shadow: $text-shadow;
 		margin-bottom: 20px;
 	}
 
@@ -20,10 +22,236 @@
 	}
 }
 
-.search-field {
+// Selected Items Section
+.selected-items-card {
+	background: linear-gradient(
+		135deg,
+		rgba(232, 215, 177, 0.15) 0%,
+		rgba(217, 164, 65, 0.1) 100%
+	);
+	border: $border-gold-medium;
+	box-shadow: 0 4px 12px rgba($tibia-gold, 0.2);
+
+	mat-card-header {
+		margin-bottom: 16px;
+	}
+
+	mat-card-title {
+		color: $tibia-gold;
+		font-size: $font-size-xl;
+		font-weight: 600;
+		text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+	}
+
+	mat-card-content {
+		overflow: hidden;
+	}
+}
+
+.selected-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
 	width: 100%;
-	max-width: 500px;
+
+	span {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+
+		mat-icon {
+			color: $tibia-gold;
+		}
+	}
+
+	.header-actions {
+		display: flex;
+		gap: 4px;
+	}
+
+	button {
+		mat-icon {
+			color: $tibia-gray;
+		}
+
+		&:hover mat-icon {
+			color: $tibia-red;
+		}
+	}
+}
+
+.selected-items-grid {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 16px;
+	padding: 8px;
+
+	@media (max-width: 768px) {
+		grid-template-columns: repeat(2, 1fr);
+		gap: 12px;
+	}
+
+	@media (max-width: 480px) {
+		grid-template-columns: 1fr;
+		gap: 10px;
+	}
+}
+
+.selected-item-card {
+	position: relative;
+	background: $tibia-green;
+	border: 1px solid rgba($tibia-gold, 0.3);
+	border-radius: $border-radius;
+	padding: 16px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 12px;
+	transition: all 0.3s ease;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+	&:hover {
+		transform: translateY(-4px);
+		box-shadow: 0 6px 16px rgba($tibia-gold, 0.3);
+		border-color: rgba($tibia-gold, 0.6);
+		background: rgba($tibia-green, 0.7);
+	}
+
+	.remove-btn {
+		position: absolute;
+		top: -6px;
+		right: -6px;
+		width: 24px;
+		height: 24px;
+		min-width: 24px;
+		padding: 0;
+		background: $tibia-brown-dark;
+		color: white;
+		border: 2px solid $tibia-gold-light;
+		border-radius: 50%;
+		transition: $transition-fast;
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		mat-icon {
+			font-size: 16px;
+			width: 16px;
+			height: 16px;
+			line-height: 16px;
+		}
+
+		&:hover {
+			background: $tibia-red;
+			border-color: rgba(255, 255, 255, 0.8);
+			transform: scale(1.1);
+			box-shadow: 0 3px 8px rgba(198, 40, 40, 0.4);
+		}
+	}
+
+	.selected-item-image {
+		width: 64px;
+		height: 64px;
+		object-fit: contain;
+		image-rendering: pixelated;
+		background: $tibia-gold-light;
+		border-radius: $spacing-xs;
+		padding: 8px;
+		border: $border-gold-light;
+	}
+
+	.selected-item-info {
+		text-align: center;
+		width: 100%;
+
+		h4 {
+			color: $tibia-gold-light;
+			font-size: $font-size-md;
+			font-weight: 600;
+			margin: 0 0 8px 0;
+			word-wrap: break-word;
+		}
+
+		.sell-info {
+			color: $tibia-gold;
+			font-size: $font-size-xs;
+			margin: 4px 0;
+			font-weight: 600;
+		}
+
+		.price-info {
+			color: $tibia-white;
+			font-size: $font-size-sm;
+			font-weight: 600;
+			margin: 4px 0;
+			background: $tibia-green;
+			padding: 4px 8px;
+			border-radius: $spacing-xs;
+			display: inline-block;
+			border: 1px solid $tibia-gold;
+		}
+
+		.creatures-mini-container {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 4px;
+			margin: 8px 0;
+			max-height: 60px;
+			overflow-y: auto;
+
+			&::-webkit-scrollbar {
+				width: 4px;
+				height: 4px;
+			}
+
+			&::-webkit-scrollbar-thumb {
+				background: rgba($tibia-gold, 0.5);
+				border-radius: 2px;
+			}
+		}
+
+		.creature-chip-mini {
+			font-size: 10px;
+			padding: 2px 6px;
+			background: rgba($tibia-green, 0.2);
+			border: 1px solid rgba($tibia-gold, 0.4);
+			border-radius: 8px;
+			min-height: 20px;
+			display: inline-flex;
+			align-items: center;
+
+			.creature-link {
+				color: $tibia-white;
+				text-decoration: none;
+				font-weight: 500;
+				font-size: 10px;
+
+				&:hover {
+					color: $tibia-gold-light;
+				}
+			}
+		}
+	}
+}
+
+.search-container {
+	display: flex;
+	align-items: center;
+	gap: 16px;
+	flex-wrap: wrap;
 	margin-bottom: 20px;
+}
+
+.search-field {
+	flex: 1;
+	min-width: 300px;
+	max-width: 500px;
+	margin-bottom: 0;
+}
+
+.yasir-filter {
+	margin-bottom: 0;
 }
 
 .loading-container {
@@ -38,18 +266,41 @@
 	}
 
 	p {
-		color: #666;
-		font-size: 14px;
+		color: $tibia-gray;
+		font-size: $font-size-md;
 	}
 }
 
 .table-container {
 	overflow-x: auto;
 	width: 100%;
+	border-radius: $border-radius;
+	overflow: hidden;
 }
 
 .items-table {
 	width: 100%;
+	border-radius: $border-radius;
+	overflow: hidden;
+
+	// Estilizar cabeçalho
+	th.mat-header-cell {
+		background: $tibia-green;
+		color: $tibia-white;
+		font-weight: 600;
+		font-size: $font-size-sm;
+		text-transform: uppercase;
+		letter-spacing: 0.5px;
+	}
+
+	// Estilizar linhas
+	tr.mat-row {
+		transition: background-color 0.2s ease;
+
+		&:hover {
+			background: rgba($tibia-gold, 0.1);
+		}
+	}
 }
 
 .item-image {
@@ -103,8 +354,8 @@
 
 .price-value {
 	font-weight: 600;
-	color: #f57c00;
-	font-size: 14px;
+	color: $tibia-gold;
+	font-size: $font-size-md;
 }
 
 .no-data-row {
@@ -117,7 +368,7 @@
 	align-items: center;
 	justify-content: center;
 	padding: 40px;
-	color: #999;
+	color: $tibia-gray;
 
 	mat-icon {
 		font-size: 48px;
@@ -125,11 +376,12 @@
 		height: 48px;
 		margin-bottom: 16px;
 		opacity: 0.5;
+		color: $tibia-gold;
 	}
 
 	p {
 		margin: 0;
-		font-size: 14px;
+		font-size: $font-size-md;
 	}
 }
 
@@ -146,8 +398,8 @@
 	}
 
 	p {
-		color: #e8d7b1;
-		font-size: 14px;
+		color: $tibia-gold-light;
+		font-size: $font-size-md;
 		margin: 0;
 	}
 }
@@ -155,8 +407,8 @@
 .results-info {
 	padding: 16px;
 	text-align: center;
-	color: #e8d7b1;
-	font-size: 13px;
+	color: $tibia-gold-light;
+	font-size: $font-size-sm;
 	margin-top: 8px;
 
 	p {
@@ -167,8 +419,8 @@
 .end-of-list {
 	padding: 20px;
 	text-align: center;
-	color: #4caf50;
-	font-size: 14px;
+	color: $success-green;
+	font-size: $font-size-md;
 	margin-top: 16px;
 
 	p {

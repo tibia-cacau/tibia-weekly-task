@@ -7,71 +7,88 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Injectable({
-  providedIn: 'root',
+	providedIn: 'root',
 })
 export class ItemService {
-  private apiUrl: string;
+	private apiUrl: string;
 
-  constructor(private http: HttpClient, private configService: ConfigService) {
-    this.apiUrl = this.configService.getApiUrl();
-  }
+	constructor(
+		private http: HttpClient,
+		private configService: ConfigService
+	) {
+		this.apiUrl = this.configService.getApiUrl();
+	}
 
-  getAllItems(
-    page: number = 0,
-    size: number = 30,
-    sortBy: string = 'name',
-    sortDirection: string = 'ASC'
-  ): Observable<PageResponse<Item>> {
-    let params = new HttpParams()
-      .set('page', page.toString())
-      .set('size', size.toString())
-      .set('sortBy', sortBy)
-      .set('sortDirection', sortDirection);
+	getAllItems(
+		page: number = 0,
+		size: number = 30,
+		sortBy: string = 'name',
+		sortDirection: string = 'ASC',
+		filterYasir: boolean = false
+	): Observable<PageResponse<Item>> {
+		let params = new HttpParams()
+			.set('page', page.toString())
+			.set('size', size.toString())
+			.set('sortBy', sortBy)
+			.set('sortDirection', sortDirection);
 
-    return this.http
-      .get<PageResponse<ItemResponse>>(`${this.apiUrl}/items`, { params })
-      .pipe(
-        map((response) => ({
-          ...response,
-          content: response.content.map((item) => this.mapToItem(item)),
-        }))
-      );
-  }
+		if (filterYasir) {
+			params = params.set('sellToNpc', 'Yasir');
+		}
 
-  searchItemByName(
-    name: string,
-    page: number = 0,
-    size: number = 30
-  ): Observable<PageResponse<Item>> {
-    let params = new HttpParams()
-      .set('name', name)
-      .set('page', page.toString())
-      .set('size', size.toString());
+		return this.http
+			.get<PageResponse<ItemResponse>>(`${this.apiUrl}/items`, { params })
+			.pipe(
+				map((response) => ({
+					...response,
+					content: response.content.map((item) =>
+						this.mapToItem(item)
+					),
+				}))
+			);
+	}
 
-    return this.http
-      .get<PageResponse<ItemResponse>>(`${this.apiUrl}/items/search`, {
-        params,
-      })
-      .pipe(
-        map((response) => ({
-          ...response,
-          content: response.content.map((item) => this.mapToItem(item)),
-        }))
-      );
-  }
+	searchItemByName(
+		name: string,
+		page: number = 0,
+		size: number = 30,
+		filterYasir: boolean = false
+	): Observable<PageResponse<Item>> {
+		let params = new HttpParams()
+			.set('name', name)
+			.set('page', page.toString())
+			.set('size', size.toString());
 
-  getItemImage(id: string): string {
-    return `${this.apiUrl}/items/${id}/image`;
-  }
+		if (filterYasir) {
+			params = params.set('sellToNpc', 'Yasir');
+		}
 
-  private mapToItem(response: ItemResponse): Item {
-    return {
-      id: response.id,
-      name: response.name,
-      imageUrl: response.imageUrl,
-      droppedBy: response.droppedBy,
-      sellTo: response.sellToNpc,
-      price: response.priceAtNpc,
-    };
-  }
+		return this.http
+			.get<PageResponse<ItemResponse>>(`${this.apiUrl}/items/search`, {
+				params,
+			})
+			.pipe(
+				map((response) => ({
+					...response,
+					content: response.content.map((item) =>
+						this.mapToItem(item)
+					),
+				}))
+			);
+	}
+
+	getItemImage(id: string): string {
+		return `${this.apiUrl}/items/${id}/image`;
+	}
+
+	private mapToItem(response: ItemResponse): Item {
+		return {
+			id: response.id,
+			name: response.name,
+			imageUrl: response.imageUrl,
+			droppedBy: response.droppedBy,
+			sellTo: response.sellToNpc,
+			price: response.priceAtNpc,
+		};
+	}
 }

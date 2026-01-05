@@ -1,32 +1,134 @@
 <div class="item-list-container">
 	<h2>Lista de itens disponíveis</h2>
 
+	<!-- Selected Items Section -->
+	<mat-card
+		class="selected-items-card"
+		*ngIf="selectedItems.length > 0"
+	>
+		<mat-card-header>
+			<mat-card-title>
+				<div class="selected-header">
+					<span>
+						<mat-icon>star</mat-icon>
+						Itens Selecionados ({{ selectedItems.length }}/{{ 9 }})
+					</span>
+					<div class="header-actions">
+						<button
+							mat-icon-button
+							(click)="toggleSelectedItems()"
+							[matTooltip]="
+								isSelectedItemsExpanded
+									? 'Minimizar'
+									: 'Expandir'
+							"
+						>
+							<mat-icon>{{
+								isSelectedItemsExpanded
+									? 'expand_less'
+									: 'expand_more'
+							}}</mat-icon>
+						</button>
+						<button
+							mat-icon-button
+							color="warn"
+							(click)="clearAllSelected()"
+							matTooltip="Limpar todos"
+						>
+							<mat-icon>clear_all</mat-icon>
+						</button>
+					</div>
+				</div>
+			</mat-card-title>
+		</mat-card-header>
+		<mat-card-content
+			[@expandCollapse]="
+				isSelectedItemsExpanded ? 'expanded' : 'collapsed'
+			"
+		>
+			<div
+				class="selected-items-grid"
+				*ngIf="isSelectedItemsExpanded"
+			>
+				<div
+					class="selected-item-card"
+					*ngFor="let item of selectedItems"
+				>
+					<button
+						mat-icon-button
+						class="remove-btn"
+						(click)="removeSelectedItem(item)"
+					>
+						<mat-icon>close</mat-icon>
+					</button>
+					<img
+						[src]="getImageUrl(item)"
+						[alt]="item.name"
+						class="selected-item-image"
+						(error)="onImageError($event)"
+					/>
+					<div class="selected-item-info">
+						<h4>{{ item.name }}</h4>
+						<div class="creatures-mini-container">
+							<mat-chip
+								*ngFor="let creature of item.droppedBy"
+								class="creature-chip-mini"
+							>
+								<a
+									[href]="getCreatureWikiUrl(creature)"
+									target="_blank"
+									rel="noopener noreferrer"
+									class="creature-link"
+								>
+									{{ creature }}
+								</a>
+							</mat-chip>
+						</div>
+						<p class="sell-info">{{ item.sellTo }}</p>
+						<p class="price-info">{{ item.price }} gp</p>
+					</div>
+				</div>
+			</div>
+		</mat-card-content>
+	</mat-card>
+
 	<mat-card>
 		<mat-card-content>
 			<!-- Search Input -->
-			<mat-form-field
-				appearance="outline"
-				class="search-field"
-			>
-				<mat-label>Pesquisar item</mat-label>
-				<input
-					#searchInput
-					matInput
-					[formControl]="searchControl"
-					placeholder="Digite o nome do item..."
-					autocomplete="off"
-				/>
-				<mat-icon matPrefix>search</mat-icon>
-				<button
-					mat-icon-button
-					matSuffix
-					*ngIf="searchControl.value"
-					(click)="searchControl.setValue('')"
-					aria-label="Limpar"
+			<div class="search-container">
+				<mat-form-field
+					appearance="outline"
+					class="search-field"
 				>
-					<mat-icon>close</mat-icon>
-				</button>
-			</mat-form-field>
+					<mat-label>Pesquisar item</mat-label>
+					<input
+						#searchInput
+						matInput
+						[formControl]="searchControl"
+						placeholder="Digite o nome do item..."
+						autocomplete="off"
+					/>
+					<mat-icon matPrefix>search</mat-icon>
+					<button
+						mat-icon-button
+						matSuffix
+						*ngIf="searchControl.value"
+						(click)="searchControl.setValue('')"
+						aria-label="Limpar"
+					>
+						<mat-icon>close</mat-icon>
+					</button>
+				</mat-form-field>
+
+				<mat-checkbox
+					[(ngModel)]="filterYasir"
+					(change)="onYasirFilterChange()"
+					class="yasir-filter"
+					name="filterYasir"
+				>
+					Apenas Yasir
+				</mat-checkbox>
+			</div>
 
 			<!-- Loading Spinner -->
 			<div
@@ -47,6 +149,34 @@
 					[dataSource]="items"
 					class="items-table"
 				>
+					<!-- Select Column -->
+					<ng-container matColumnDef="select">
+						<th
+							mat-header-cell
+							*matHeaderCellDef
+						>
+							Selecionar
+						</th>
+						<td
+							mat-cell
+							*matCellDef="let item"
+						>
+							<mat-checkbox
+								[checked]="isItemSelected(item)"
+								[disabled]="
+									!isItemSelected(item) && !canSelectMore()
+								"
+								(change)="toggleItemSelection(item)"
+								[matTooltip]="
+									!canSelectMore() && !isItemSelected(item)
+										? 'Máximo de 9 itens atingido'
+										: ''
+								"
+							>
+							</mat-checkbox>
+						</td>
+					</ng-container>
+
 					<!-- Image Column -->
 					<ng-container matColumnDef="image">
 						<th
