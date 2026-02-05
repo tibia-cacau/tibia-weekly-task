@@ -1,4 +1,5 @@
 export const environment = {
 	production: false,
-	apiUrl: 'http://localhost:8080/api',
+	apiUrl: 'http://tibiacacau.com.br/api',
+	apiBaseUrl: 'http://tibiacacau.com.br',
 };

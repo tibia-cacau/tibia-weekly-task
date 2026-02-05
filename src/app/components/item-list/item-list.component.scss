@@ -1,21 +1,12 @@
 @import '../../../../../../shared-styles/variables';
 
 .item-list-container {
-	padding: 30px 20px;
-	max-width: 1400px;
+	padding: 15px;
+	max-width: 1200px;
 	margin: 0 auto;
-	background: rgba(0, 0, 0, 0.4);
+	// background: rgba($tibia-brown-dark, 0.4);
 	backdrop-filter: blur(10px);
 	border-radius: 12px;
-	min-height: calc(100vh - 200px);
-
-	h2 {
-		text-align: center;
-		color: $tibia-gold-light;
-		font-size: 22px;
-		text-shadow: $text-shadow;
-		margin-bottom: 20px;
-	}
 
 	mat-card {
 		margin-bottom: 20px;

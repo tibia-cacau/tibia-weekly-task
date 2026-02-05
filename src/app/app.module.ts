@@ -18,9 +18,12 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { NgModule } from '@angular/core';
+import { SessionAnalyserComponent } from './components/session-Analyser/session-Analyser.component';
+import { SessionParserComponent } from '../../../../shared-components/session-parser/session-parser.component';
+import { TibiaTabsComponent } from '../../../../shared-components/tibia-tabs/tibia-tabs.component';
 
 @NgModule({
-	declarations: [AppComponent, ItemListComponent],
+	declarations: [AppComponent, ItemListComponent, SessionAnalyserComponent],
 	imports: [
 		CommonModule,
 		HttpClientModule,
@@ -38,6 +41,8 @@ import { NgModule } from '@angular/core';
 		MatProgressSpinnerModule,
 		MatPaginatorModule,
 		MatTooltipModule,
+		SessionParserComponent,
+		TibiaTabsComponent,
 	],
 	providers: [],
 })

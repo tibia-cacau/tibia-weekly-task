@@ -1,5 +1,16 @@
-<div class="app-container">
-	<main>
-		<router-outlet></router-outlet>
-	</main>
+<div class="tibia-container">
+	<div class="tibia-card">
+		<div class="card-header">
+			<h2>
+				<mat-icon>task_alt</mat-icon>
+				Weekly Tasks
+			</h2>
+		</div>
+		<div class="card-content">
+			<app-tibia-tabs [tabs]="tabs"></app-tibia-tabs>
+			<main>
+				<router-outlet></router-outlet>
+			</main>
+		</div>
+	</div>
 </div>

@@ -1,0 +1,95 @@
+<div class="session-Analyser-container">
+	<h2>Hunt Session Analyser</h2>
+
+	<!-- Session Parser Component -->
+	<app-session-parser
+		[showSessionSummary]="false"
+		(sessionParsed)="onSessionParsed($event)"
+		(sessionCleared)="onSessionCleared()"
+	></app-session-parser>
+
+	<!-- Error Message -->
+	<mat-card
+		*ngIf="errorMessage"
+		class="error-card"
+	>
+		<mat-card-content>
+			<div class="error-message">
+				<mat-icon>error</mat-icon>
+				<span>{{ errorMessage }}</span>
+			</div>
+		</mat-card-content>
+	</mat-card>
+
+	<div
+		*ngIf="analysisResult"
+		class="results-section"
+	>
+		<!-- Looted Task Items Section -->
+		<mat-card
+			class="tasks-card"
+			*ngIf="
+				analysisResult.lootedTaskItems &&
+				analysisResult.lootedTaskItems.length > 0
+			"
+		>
+			<mat-card-header class="centered-header">
+				<mat-card-title>
+					Weekly task Itens ({{
+						analysisResult.lootedTaskItems.length
+					}})
+				</mat-card-title>
+				<mat-card-subtitle>
+					Itens que você looteou e podem ser vendidos para players
+				</mat-card-subtitle>
+			</mat-card-header>
+			<mat-card-content>
+				<div class="looted-items-grid">
+					<div
+						*ngFor="let item of analysisResult.lootedTaskItems"
+						class="looted-item-card"
+					>
+						<img
+							*ngIf="item.imageUrl"
+							[src]="apiBaseUrl + item.imageUrl"
+							[alt]="item.itemName"
+							class="item-image"
+						/>
+						<div class="item-info">
+							<strong>{{ item.itemName }}</strong>
+							<p class="task-name">{{ item.taskName }}</p>
+							<p
+								class="item-price"
+								*ngIf="item.price"
+							>
+								{{ item.price }} gold
+							</p>
+						</div>
+					</div>
+				</div>
+			</mat-card-content>
+		</mat-card>
+
+		<!-- No Items Found -->
+		<mat-card
+			*ngIf="
+				!analysisResult.lootedTaskItems ||
+				analysisResult.lootedTaskItems.length === 0
+			"
+			class="no-tasks-card"
+		>
+			<mat-card-content>
+				<div class="no-tasks-message">
+					<mat-icon>info</mat-icon>
+					<p>Nenhum item valioso encontrado no seu loot.</p>
+					<p class="hint">
+						Os itens looteados não possuem valor de venda
+						cadastrado.
+					</p>
+				</div>
+			</mat-card-content>
+		</mat-card>
+	</div>
+
+	<!-- Analysis Results -->
+</div>
